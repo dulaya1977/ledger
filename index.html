@@ -9,24 +9,32 @@
   </head>
   <body>
     <main class="app-shell">
-      <header class="topbar">
-        <button class="icon-button" id="tripMenuButton" aria-label="切換出差" type="button">☰</button>
+      <header class="topbar" id="topbar">
         <h1>出差記帳</h1>
-        <button class="icon-button" id="exportButton" aria-label="匯出目前出差 CSV" type="button">⇩</button>
       </header>
 
-      <section id="emptyState" class="empty-state hidden" aria-live="polite">
-        <div class="empty-icon" aria-hidden="true">✦</div>
-        <h2>建立第一趟出差</h2>
-        <p>先填寫船名與港口，即可開始記錄每一筆花費。</p>
-        <button class="primary-button" id="createFirstTripButton" type="button">新增出差</button>
+      <section id="tripListView" class="hidden" aria-live="polite">
+        <section id="emptyState" class="empty-state hidden">
+          <div class="empty-icon" aria-hidden="true">✦</div>
+          <h2>建立第一趟出差</h2>
+          <p>先填寫船名與港口，即可開始記錄每一筆花費。</p>
+          <button class="primary-button" id="createFirstTripButton" type="button">新增出差</button>
+        </section>
+        <section id="tripListContent" class="trip-list-content hidden" aria-labelledby="tripListTitle">
+          <div class="list-heading"><p>出差總列表</p><h2 id="tripListTitle">所有出差</h2></div>
+          <ul id="tripList" class="trip-list trip-list--cards"></ul>
+        </section>
       </section>
 
       <section id="tripView" class="hidden">
         <section class="trip-card" aria-labelledby="tripTitle">
           <div class="trip-card__topline">
-            <span>目前出差</span>
-            <button class="text-button light" id="editTripButton" type="button">編輯</button>
+            <button class="trip-card-action trip-card-action--back" id="tripMenuButton" aria-label="返回出差總列表" type="button">←</button>
+            <div class="trip-card-actions">
+              <button class="trip-card-action" id="editTripButton" aria-label="編輯出差" type="button">✎</button>
+              <button class="trip-card-action" id="exportButton" aria-label="匯出目前出差 CSV" type="button">⇩</button>
+              <button class="trip-card-action trip-card-action--danger" id="deleteTripButton" aria-label="刪除目前出差" type="button">×</button>
+            </div>
           </div>
           <h2 id="tripTitle"></h2>
           <p class="port-line"><span aria-hidden="true">●</span><span id="portName"></span></p>
@@ -80,6 +88,7 @@
     </main>
 
     <button id="addExpenseButton" class="add-button hidden" type="button"><span aria-hidden="true">＋</span> 新增費用</button>
+    <button id="addTripButton" class="add-button add-trip-button hidden" type="button"><span aria-hidden="true">＋</span> 新增出差</button>
 
     <div id="modalBackdrop" class="modal-backdrop hidden" role="presentation"></div>
 
@@ -91,7 +100,6 @@
         <label>港口<input id="port" required maxlength="60" placeholder="例如：新加坡港" autocomplete="off" /></label>
         <button class="primary-button" type="submit">儲存出差資料</button>
       </form>
-      <button id="deleteTripButton" class="danger-button hidden" type="button">刪除此趟出差</button>
     </section>
 
     <section id="expenseModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="expenseModalTitle">
@@ -109,13 +117,6 @@
         <p id="formError" class="form-error hidden" role="alert"></p>
         <button class="primary-button" type="submit">儲存費用</button>
       </form>
-    </section>
-
-    <section id="tripPicker" class="sheet hidden" role="dialog" aria-modal="true" aria-labelledby="pickerTitle">
-      <div class="sheet__handle" aria-hidden="true"></div>
-      <div class="sheet__header"><h2 id="pickerTitle">切換出差</h2><button class="icon-button close-modal" type="button" aria-label="關閉">×</button></div>
-      <ul id="tripList" class="trip-list"></ul>
-      <button class="secondary-button" id="newTripButton" type="button">＋ 新增出差</button>
     </section>
 
     <script src="app.js"></script>
